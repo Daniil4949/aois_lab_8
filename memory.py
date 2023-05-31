@@ -117,6 +117,39 @@ class Memory:
                 result.append(entry)
         return result
 
+    def summarise_copy(self, mask):
+        result = Memory(self.size)
+
+        for i in range(self.size):
+            word = self.get_word(i)
+            value = word[0:3]
+            if value == mask:
+                first_value = word[3:7]
+                second_value = word[7:11]
+                sum_result = self.binary_add(first_value, second_value)
+                new_word = value + first_value + second_value + sum_result
+                result.add_word(i, new_word)
+            else:
+                result.add_word(i, word)
+        return result
+
+    @staticmethod
+    def binary_add(first_value, second_value) -> List[bool]:
+        op_length = max(len(first_value), len(second_value))
+        first_additional_value, second_additional_value, third_additional_value, result = False, False, False, False
+        first_temp_add = [False] * (op_length + 1)
+        second_temp_add = [False] * (op_length + 1)
+        first_temp_add[:len(first_value)] = first_value
+        second_temp_add[:len(second_value)] = second_value
+        for i in range(op_length):
+            first_additional_value = first_temp_add[i] ^ second_temp_add[i]
+            second_additional_value = first_temp_add[i] and second_temp_add[i]
+            third_additional_value = first_additional_value and result
+            first_temp_add[i] = first_additional_value ^ result
+            result = second_additional_value or third_additional_value
+        first_temp_add[op_length] |= result
+        return first_temp_add
+
     def __str__(self):
         result = str(self.memory)
         result = result.replace("], ", "\n")
