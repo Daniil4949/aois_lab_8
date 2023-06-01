@@ -7,6 +7,7 @@ def main():
     print(am)
     print()
     diagonalised = am.diagonalise_copy()
+    print("Diagonalized: ")
     print(diagonalised)
     print()
     res = am.search_in_range(am.memory,
@@ -23,10 +24,6 @@ def main():
     print(f"Searching in interval {list(map(lambda x: int(x), first))} and {list(map(lambda x: int(x), second))}")
     for i in range(len(res)):
         print(" ".join(str(list(map(lambda x: int(x), res[i])))))
-    am.add_column(2, [False, True, True, False, False, True, False, True, False, True, True, True, False,
-                      True, False, True])
-    am.add_word(2, [False, True, True, False, False, True, False, True, False, True, True, True, False,
-                    True, False, True])
     print("logical 7-function")
     print(" ".join(str(list(map(lambda x: int(x), am.seventh_function(1, 2))))))
     print("logical 13-function")
