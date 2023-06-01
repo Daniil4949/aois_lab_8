@@ -153,11 +153,11 @@ class Memory:
     def __str__(self):
         result = str(self.memory)
         result = result.replace("], ", "\n")
-        result = result.replace("false", "0")
-        result = result.replace("true", "1")
+        result = result.replace("False", "0")
+        result = result.replace("True", "1")
         result = result.replace("[[", "")
         result = result.replace("[", "")
         result = result.replace("]]", "")
         result = result.replace("]", "")
-        result = result.replace(",", " ")
+        result = result.replace(",", "")
         return result
