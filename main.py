@@ -36,18 +36,18 @@ if __name__ == '__main__':
 
     print('\nLogical operations')
     print('x1*!x2', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}', sep='\n')
-    print(f'ans = {object_.perform_logical_operation("f2", 0, 1)}')
+    print(f'ans = {object_.actions("f2", 0, 1)}')
     print()
     print('x1+x2 + x1*!x2', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}',
           sep='\n')
-    print(f'ans = {object_.perform_logical_operation("f7", 0, 1)}')
+    print(f'ans = {object_.actions("f7", 0, 1)}')
     print()
     print('!(x1+x2)', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}',
           sep='\n')
-    print(f'ans = {object_.perform_logical_operation("f8", 0, 1)}')
+    print(f'ans = {object_.actions("f8", 0, 1)}')
     print()
     print('!x1 + x2', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}', sep='\n')
-    print(f'ans = {object_.perform_logical_operation("f13", 0, 1)}')
+    print(f'ans = {object_.actions("f13", 0, 1)}')
     print('\nArithmetic operations')
 
     print('V = 110')

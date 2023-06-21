@@ -16,8 +16,7 @@ class AssociativeProces:
             shifted_word = self.changing(self.bits_data[i], i)
             result.append(shifted_word)
         result_transposed = []
-        for column in zip(*result):
-            result_transposed.append(list(column))
+        for column in zip(*result): result_transposed.append(list(column))
         self.bits_data = result_transposed
 
     @staticmethod
@@ -28,11 +27,8 @@ class AssociativeProces:
             fact = True
         item = list(item)
         for _ in range(element):
-            if not fact:
-                item.insert(0, item.pop())
-            else:
-                item.append(item.pop(0))
-
+            if not fact: item.insert(0, item.pop())
+            else: item.append(item.pop(0))
         return list(item)
 
     def to_normal(self):
@@ -49,8 +45,7 @@ class AssociativeProces:
     def get_item(self, position: int):
         column_data = []
         for i in range(self.order):
-            index = (i + position) % self.order
-            column_data.append(self.bits_data[i][index])
+            column_data.append(self.bits_data[i][(i + position) % self.order])
         return column_data
 
     def add_item(self, position: int, items: list):
@@ -69,37 +64,30 @@ class AssociativeProces:
         self.bits_data = list(map(list, self.bits_data))
         for i in range(self.order): self.bits_data[i][position] = self.changing(data, position)[i]
 
-    @staticmethod
-    def second_function(digit1: int, digit2: int):
-        return int(digit1 and (not digit2))
+    def second_function(self, x: int, y: int):
+        return int(x and (not y))
 
-    @staticmethod
-    def seventh_function(digit1: int, digit2: int):
-        return int(digit1 or digit2)
+    def seventh_function(self, x: int, y: int):
+        return int(x or y)
 
-    @staticmethod
-    def eight_function(digit1: int, digit2: int):
-        return int(not int((digit1 and digit2)))
+    def eight_function(self, x: int, y: int):
+        return int(not int((x and y)))
 
-    @staticmethod
-    def thirteenth_function(digit1: int, digit2: int):
-        return int((not digit1) or digit2)
+    def thirteenth_function(self, x: int, y: int):
+        return int((not x) or y)
 
-    def perform_logical_operation(self, operation: str, first_value, second_value):
-        first_position = self.get_item(first_value), self.get_item(second_value)
-        second_position = self.get_item(second_value)
-        return ''.join(
-            list(
-                map(lambda x: str(self.ACTIONS[operation](*x)),
-                    list(zip(first_position, second_position)
-                         ))))
+    def actions(self, operation: str, first_value, second_value):
+        first_element = self.get_item(first_value)
+        second_element = self.get_item(second_value)
+        return ''.join(list(
+            map(lambda x: str(self.ACTIONS[operation](*x)), list(zip(first_element, second_element)))))
 
     def operation(self, v_value: str):
         v_value = list(map(int, v_value))
         value, suitable_items = self.finding_item(v_value)
         first = suitable_items[3:7]
         second = suitable_items[7:11]
-        result = suitable_items[:11] + self.arithmetic_operation(first, second)
+        result = suitable_items[:11] + self.v_action(first, second)
         return " ".join(list(map(str, result))), value
 
     def finding_item(self, v_value):
@@ -113,7 +101,7 @@ class AssociativeProces:
                 suitable_items = word
         return value, suitable_items
 
-    def arithmetic_operation(self, first_item, second_item):
+    def v_action(self, first_item, second_item):
         first_value, second_value = [int(x) for x in first_item], [int(x) for x in second_item]
         result, additional_bit = self.additional_action(first_value, second_value)
         result = str(additional_bit) + result
@@ -142,9 +130,8 @@ class AssociativeProces:
         current_g = 0
         current_l = 0
         for ind, word in enumerate(self.bits_data):
-            digit_1, digit_2 = list(map(lambda x: bool(int(x)), [first_value[ind], second_value[ind]]))
-            next_g = current_g or (not digit_2 and digit_1 and not current_l)
-            next_l = current_l or (digit_2 and not digit_1 and not current_g)
+            x, y = list(map(lambda x: bool(int(x)), [first_value[ind], second_value[ind]]))
+            next_g, next_l= current_g or (not y and x and not current_l), current_l or (y and not x and not current_g)
             current_g = next_g
             current_l = next_l
         return bool(current_g), bool(current_l)
@@ -156,5 +143,4 @@ class AssociativeProces:
         elif res == (False, False): return 0
 
     def show(self):
-        for row in self.bits_data:
-            print(' '.join(map(str, row)))
+        for row in self.bits_data: print(' '.join(map(str, row)))
