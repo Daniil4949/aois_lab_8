@@ -1,38 +1,65 @@
-from memory import Memory
+import random
 
+from solving import AssociativeProces
 
-def main():
-    am = Memory(16)
-    am.randomize()
-    print(am)
+if __name__ == '__main__':
+
+    object_ = AssociativeProces(16)
+
+    for i in range(16):
+        column = [random.randint(0, 1) for _ in range(16)]
+        object_.add_item(i, column)
+
+    print("Original Memory:")
+    object_.show()
+
+    object_.vice_versa()
+    print("\nMemory with Diagonal Addressing:")
+    object_.show()
+
+    object_.to_normal()
+    print("\nMemory with Original Addressing:")
+    object_.show()
+    object_.vice_versa()
+
+    word = [random.randint(0, 1) for _ in range(16)]
+    position = 2
+    print(f'\nWriting word {word} on index {position}\nMemory:')
+    object_.adding_item(position, word)
+    object_.show()
+
+    column = [random.randint(0, 1) for _ in range(16)]
+    position = 2
+    print(f'\nWriting column {column} on index {position}\nMemory:')
+    object_.add_item(position, column)
+    object_.show()
+
+    print('\nLogical operations')
+    print('x1*!x2', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}', sep='\n')
+    print(f'ans = {object_.perform_logical_operation("f2", 0, 1)}')
     print()
-    diagonalised = am.diagonalise_copy()
-    print("Diagonalized: ")
-    print(diagonalised)
+    print('x1+x2 + x1*!x2', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}',
+          sep='\n')
+    print(f'ans = {object_.perform_logical_operation("f7", 0, 1)}')
     print()
-    res = am.search_in_range(am.memory,
-                             [True, True, True, False, True, False, True, False, True, False, False, False, True,
-                              True, True, False,
-                              ],
-                             [False, True, True, False, False, True, False, True, False, True, True, True, False,
-                              True, False, True])
-    first = [True, True, True, False, True, False, True, False, True, False, False, False, True,
-             True, True, False,
-             ]
-    second = [False, True, True, False, False, True, False, True, False, True, True, True, False,
-              True, False, True]
-    print(f"Searching in interval {list(map(lambda x: int(x), first))} and {list(map(lambda x: int(x), second))}")
-    for i in range(len(res)):
-        print(" ".join(str(list(map(lambda x: int(x), res[i])))))
-    print("logical 7-function")
-    print(" ".join(str(list(map(lambda x: int(x), am.seventh_function(1, 2))))))
-    print("logical 13-function")
-    print(" ".join(str(list(map(lambda x: int(x), am.thirteenth_function(3, 4))))))
-    print("logical 8-function")
-    print(" ".join(str(list(map(lambda x: int(x), am.eighth_function(0, 1))))))
-    print("addition")
-    print(am.summarise_copy([True, True, True]))
+    print('!(x1+x2)', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}',
+          sep='\n')
+    print(f'ans = {object_.perform_logical_operation("f8", 0, 1)}')
+    print()
+    print('!x1 + x2', f'x1= 1st col = {object_.get_item(0)}', f'x2= 2nd col = {object_.get_item(1)}', sep='\n')
+    print(f'ans = {object_.perform_logical_operation("f13", 0, 1)}')
+    print('\nArithmetic operations')
 
+    print('V = 110')
+    result, position = object_.operation("110")
+    print(f'founded word index = {position}', sep='\n')
+    print(f'ans = {result}')
 
-if __name__ == "__main__":
-    main()
+    print(
+        f"\nFind elements in range - [0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1] -  {int(''.join(list(map(lambda x: str(x), [0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1]))), 2)} and [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1] {int(''.join(list(map(lambda x: str(x), [0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1]))), 2)}")
+    res = object_.find_in_range(first_value=[0, 0, 1, 0, 1, 1, 0, 1, 1, 1, 1, 0, 0, 0, 1, 1],
+                                second_value=[0, 1, 0, 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 0, 1])
+    for element in res:
+        print(element, " ", int(''.join(list(map(lambda x: str(x), element))), 2))
+
+    object_.show()
